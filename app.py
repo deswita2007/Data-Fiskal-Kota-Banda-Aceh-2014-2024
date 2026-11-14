@@ -22,6 +22,16 @@ def load_data(file):
     return pd.read_csv(file)
 
 # ---------- Sidebar: sumber data ----------
+st.sidebar.title("⚙️ Pengaturan")
+upload = st.sidebar.file_uploader("Upload CSV (opsional)", type="csv")
+
+if upload is not None:
+    df = load_data(upload)
+elif os.path.exists("dataset_fiskal.csv"):
+    df = load_data("dataset_fiskal.csv")
+else:
+    st.warning("Upload file CSV di sidebar atau letakkan 'dataset_fiskal.csv' di folder yang sama dengan app.py.")
+    st.stop()
 
 if "Kota" in df.columns:
     kota = st.sidebar.multiselect("Kota", df["Kota"].unique(), default=list(df["Kota"].unique()))
